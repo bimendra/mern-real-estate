@@ -7,10 +7,12 @@ import 'dotenv/config';
 import postRouter from './routes/post.route';
 import authtRouter from './routes/auth.route';
 import './strategies/local-strategy';
+import './strategies/jwt-strategy';
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   express.urlencoded({
     extended: true,
