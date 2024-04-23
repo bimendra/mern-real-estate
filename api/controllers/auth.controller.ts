@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import type { User } from '@prisma/client';
 
 export const register = async (req: AuthRequest, res: Response) => {
-  const { username, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
   try {
     const hashedPassword = await hash(
       password,
@@ -16,13 +16,15 @@ export const register = async (req: AuthRequest, res: Response) => {
     try {
       await prisma.user.create({
         data: {
-          username,
+          firstName,
+          lastName,
           email,
           password: hashedPassword,
         },
       });
       return res.status(201).json({ message: 'User creted successfully' });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         status: 'error',
         message: 'Failed to process the request. Please try again later.',
