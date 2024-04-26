@@ -51,7 +51,7 @@ function App() {
           <h1 className="text-4xl font-bold tracking-light lg:text-5xl my-4 md:my-6 !leading-tight">
             Find your dream home...
           </h1>
-          <p className="leading-6">
+          <p className="leading-6 text-muted-foreground">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta
             omnis illo voluptatum vitae magni mollitia architecto unde enim!
           </p>
@@ -107,16 +107,16 @@ function App() {
             </form>
             <div className="md:flex gap-6">
               <div className="py-4 mt-6 md:mt-0 md:py-10 flex-1">
-                <div className="text-4xl font-[600]">16+</div>
-                <p>Years of Experience</p>
+                <div className="text-3xl font-[600]">16+</div>
+                <p className="text-muted-foreground">Years of Experience</p>
               </div>
               <div className="py-4 md:py-10 flex-1">
-                <div className="text-4xl font-[600]">3000+</div>
-                <p>Properties Sold</p>
+                <div className="text-3xl font-[600]">3000+</div>
+                <p className="text-muted-foreground">Properties Sold</p>
               </div>
               <div className="py-4 md:py-10 flex-1">
-                <div className="text-4xl font-[600]">38k</div>
-                <p>Happy Home Owners</p>
+                <div className="text-3xl font-[600]">38k</div>
+                <p className="text-muted-foreground">Happy Home Owners</p>
               </div>
             </div>
           </div>
