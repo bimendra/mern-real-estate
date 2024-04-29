@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Search, SlidersHorizontal } from 'lucide-react';
@@ -48,12 +48,38 @@ export default function Home() {
             </div>
           </RadioGroup>
           <form className="flex gap-3 p-4 bg-foreground rounded-lg  relative -top-[4px]">
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-4 h-4 w-4 text-foreground" />
-              <Input
-                type="search"
-                placeholder="Search suburb, postcode or state..."
-                className="pl-12 w-full h-12 bg-background text-[1rem]"
+            <div className="flex-1">
+              <GooglePlacesAutocomplete
+                apiKey={import.meta.env.VITE_GOOGLE_API_KEY || 'API_KEY'}
+                selectProps={{
+                  placeholder: 'Enter City, Suburb or ZIP Code / Post Code',
+                  isClearable: true,
+                  onChange: (place) => console.log(place),
+                  theme: (theme) => ({
+                    ...theme,
+                    borderRadius: 0,
+                    colors: {
+                      ...theme.colors,
+                      primary25: 'hsl(var(--primary))',
+                      primary: 'hsl(var(--primary))',
+                    },
+                  }),
+                  styles: {
+                    control: (baseStyles) => {
+                      return {
+                        ...baseStyles,
+                        borderRadius: 4,
+                        height: 48,
+                      };
+                    },
+                    menu: (baseStyles) => {
+                      return {
+                        ...baseStyles,
+                        borderRadius: 4,
+                      };
+                    },
+                  },
+                }}
               />
             </div>
             <Button variant="secondary" className="h-12 flex gap-2">
