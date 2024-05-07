@@ -22,3 +22,85 @@ model User {
   avatar    String?
   createdAt DateTime  @default(now())
 }
+
+model Listing {
+  id                          String    @id @default(auto())  @map("_id") @db.ObjectId
+  address                     String 
+  googlePlaceId               String
+  description                 String
+  price                       Float
+  bedrooms                    Int
+  baths                       Int
+  carSpaces                   Int
+  landSize                    Float
+  lat                         Float
+  lng                         Float
+  listingType                 ListingType
+  propertyType                PropertyType
+  outdoorFeatures             OutdoorFeature[]
+  indoorFeatures              IndoorFeature[]
+  energyFeatures              EnergyFeature[]
+  climateControlFeatures      ClimatControlFeature[]
+  accessibilityFeatures       AccessibilityFeature[]
+  propertyRequirements        PropertyRequirement[]
+}
+
+enum ListingType {
+  sale 
+  rent
+}
+
+enum PropertyType {
+  house
+  townHouse
+  apartmentUnit
+  villa
+}
+
+enum OutdoorFeature {
+  swimmingPool
+  garage
+  balcony
+  outdoorArea
+  undercoverParking
+  fullyFenced
+  tennisCourt
+  shed
+  outdoorSpa
+}
+
+enum IndoorFeature {
+  ensuite
+  dishwasher
+  study
+  robes
+}
+
+enum EnergyFeature {
+  solarPanels
+  highEnergyEfficiency
+  solarHotwater
+  waterTank
+}
+
+enum ClimatControlFeature {
+  airConditioning
+  heating
+  fireplace
+}
+
+enum AccessibilityFeature {
+  singleStory
+  stepFreeEntry
+  elavator
+  wideDoorways
+  rollInShower
+  accessibleParking
+  bathroomGrabRails
+}
+
+enum PropertyRequirement {
+  furnished
+  petsConsidered
+  na
+}

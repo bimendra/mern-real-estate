@@ -1,5 +1,8 @@
 import { Button } from '@/components/ui/button';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import GooglePlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-google-places-autocomplete';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Search, SlidersHorizontal } from 'lucide-react';
@@ -54,7 +57,13 @@ export default function Home() {
                 selectProps={{
                   placeholder: 'Enter City, Suburb or ZIP Code / Post Code',
                   isClearable: true,
-                  onChange: (place) => console.log(place),
+                  onChange: async (place) => {
+                    if (place) {
+                      const geoCode = (await geocodeByAddress(place.label))[0];
+                      const latLng = await getLatLng(geoCode);
+                      console.log(latLng);
+                    }
+                  },
                   theme: (theme) => ({
                     ...theme,
                     borderRadius: 0,

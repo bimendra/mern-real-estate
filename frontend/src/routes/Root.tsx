@@ -1,6 +1,7 @@
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink as Link, Outlet } from 'react-router-dom';
 import logo from '/logo.svg';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 function Root() {
   return (
@@ -9,32 +10,60 @@ function Root() {
         {/* Header */}
         <header className="flex h-16 items-center justify-between bg-background px-4 md:px-6">
           <nav className="hidden flex-col text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-8">
-            <Link to="/" target="_blank" className="flex gap-2 items-center">
-              <img src={logo} className="logo h-[14px] md:mr-16" alt="Logo" />
+            <Link to="/" className="flex gap-2 items-center">
+              <img src={logo} />
             </Link>
             <Link
-              to="#"
-              className="text-muted-foreground font-[600] transition-colors hover:text-foreground"
+              to="/"
+              className={({ isActive }) =>
+                cn(
+                  'text-muted-foreground font-[600] transition-colors hover:text-foreground',
+                  {
+                    'text-foreground': isActive,
+                  }
+                )
+              }
             >
               Home
             </Link>
             <Link
-              to="#"
-              className="text-muted-foreground font-[600] transition-colors hover:text-foreground"
+              to="/about"
+              className={({ isActive }) =>
+                cn(
+                  'text-muted-foreground font-[600] transition-colors hover:text-foreground',
+                  {
+                    'text-foreground': isActive,
+                  }
+                )
+              }
             >
               About
             </Link>
             <Link
-              to="#"
-              className="text-muted-foreground font-[600] transition-colors hover:text-foreground"
+              to="/contact"
+              className={({ isActive }) =>
+                cn(
+                  'text-muted-foreground font-[600] transition-colors hover:text-foreground',
+                  {
+                    'text-foreground': isActive,
+                  }
+                )
+              }
             >
               Contact
             </Link>
             <Link
-              to="#"
-              className="text-muted-foreground font-[600] transition-colors hover:text-foreground"
+              to="/add-listing"
+              className={({ isActive }) =>
+                cn(
+                  'text-muted-foreground font-[600] transition-colors hover:text-foreground',
+                  {
+                    'text-foreground': isActive,
+                  }
+                )
+              }
             >
-              Agents
+              Add Listing
             </Link>
           </nav>
           <div className="flex items-center gap-2">

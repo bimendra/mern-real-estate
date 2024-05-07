@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Root from './routes/Root.tsx';
 import Home from './routes/Home.tsx';
 import SearchResults from './routes/SearchResults.tsx';
+import AddListing from './routes/AddListing.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -19,7 +20,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               element: <Home />,
             },
             {
-              path: '/search-results',
+              path: 'add-listing',
+              element: <AddListing />,
+            },
+            {
+              path: 'search-results',
               element: <SearchResults />,
             },
           ],
