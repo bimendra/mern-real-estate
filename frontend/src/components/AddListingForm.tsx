@@ -2,28 +2,23 @@ import { z } from 'zod';
 import { Step, StepItem, Stepper, useStepper } from './ui/stepper';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Libraries, useLoadScript } from '@react-google-maps/api';
-import usePlacesAutocomplete from 'use-places-autocomplete';
-import AsyncSelect from 'react-select/async';
+
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from './ui/form';
-import { Input } from './ui/input';
+
 import { Button } from './ui/button';
 import { useEffect } from 'react';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 const addListingFormSchema = z.object({
-  address: z.object({
-    label: z.string().min(1, { message: 'Address is required' }),
-    value: z.string().min(1, { message: 'Address is required' }),
-  }),
+  address: z.string().min(1, 'Please select a valid address'),
 });
 
 // Stepper configiuartion
@@ -34,27 +29,15 @@ const steps: StepItem[] = [
   {
     label: 'Details',
   },
-  // { label: 'Ammenties' },
-
-  // {
-  //   label: 'Photos',
-  // },
-  // {
-  //   label: 'Review',
-  // },
 ];
-
-const libraries: Libraries = ['places'];
 
 const AddListingForm = () => {
   const form = useForm<z.infer<typeof addListingFormSchema>>({
     resolver: zodResolver(addListingFormSchema),
-    // defaultValues: {
-    //   address: {
-    //     label: '',
-    //     value: '',
-    //   },
-    // },
+    defaultValues: {
+      address:
+        'Riverview Apartments, 1 Hardy Street, South Perth WA, Australia',
+    },
   });
 
   const {
@@ -71,12 +54,6 @@ const AddListingForm = () => {
     }
   }, [errors]);
 
-  const {
-    value: searchValue,
-    suggestions: { data },
-    setValue,
-  } = usePlacesAutocomplete();
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit((data) => console.log(data))}>
@@ -90,40 +67,46 @@ const AddListingForm = () => {
                 <FormField
                   control={form.control}
                   name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Address</FormLabel>
-                      <FormControl>
-                        <AsyncSelect
-                          className="text-sm"
-                          placeholder="Enter address of the property"
-                          isClearable
-                          theme={(theme) => ({
-                            ...theme,
-                            colors: {
-                              ...theme.colors,
-                              primary25: 'hsl(var(--primary))',
-                              primary: 'hsl(var(--primary))',
-                            },
-                          })}
-                          {...field}
-                          inputValue={searchValue}
-                          onInputChange={(newValue) => {
-                            setValue(newValue as string);
-                          }}
-                          loadOptions={(value, callback) => {
-                            callback(
-                              data.map(({ description }) => ({
-                                value: description,
-                                label: description,
-                              }))
-                            );
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>Address</FormLabel>
+                        <FormControl>
+                          <GooglePlacesAutocomplete
+                            apiKey={
+                              import.meta.env.VITE_GOOGLE_API_KEY || 'API_KEY'
+                            }
+                            selectProps={
+                              {
+                                isClearable: true,
+                                placeholder:
+                                  'Please enter the address of the property',
+                                defaultValue: field?.value
+                                  ? {
+                                      label: field.value,
+                                      value: field.value,
+                                    }
+                                  : null,
+                                onChange: (place: any) =>
+                                  field.onChange(place?.value.description),
+                                onBlur: () => field.onBlur(),
+                                ref: field.ref,
+                                theme: (theme: any) => ({
+                                  ...theme,
+                                  colors: {
+                                    ...theme.colors,
+                                    primary25: 'hsl(var(--primary))',
+                                    primary: 'hsl(var(--primary))',
+                                  },
+                                }),
+                              } as any
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </fieldset>
               <fieldset className="my-6 p-6 border rounded-lg grid gap-4">
@@ -158,7 +141,7 @@ const Footer = () => {
           <Button>Submit</Button>
         ) : (
           <>
-            <Button
+            {/* <Button
               disabled={isDisabledStep}
               onClick={prevStep}
               size="sm"
@@ -169,7 +152,8 @@ const Footer = () => {
             </Button>
             <Button size="sm" onClick={nextStep} type="button">
               Next
-            </Button>
+            </Button> */}
+            <Button>Submit</Button>
           </>
         )}
       </div>
