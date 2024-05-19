@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -21,11 +18,32 @@ model User {
   password  String
   avatar    String?
   createdAt DateTime  @default(now())
+  agent     Agent?
+}
+
+model Agent {
+  id        String   @id @default(auto())  @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId @unique
+  user      User     @relation(fields: [userId], references: [id])
+  agencyId  String   @db.ObjectId
+  agency    Agency   @relation(fields: [agencyId], references: [id])
+  listings  Listing[]
+}
+
+model Agency {
+  id          String    @id @default(auto())  @map("_id") @db.ObjectId
+  name        String
+  address     String
+  description String
+  logo        String
+  coverImage  String
+  agents      Agent[]
+  listings    Listing[]
 }
 
 model Listing {
   id                          String    @id @default(auto())  @map("_id") @db.ObjectId
-  address                     String 
+  address                     String    @unique
   googlePlaceId               String
   description                 String
   price                       Float
@@ -43,6 +61,19 @@ model Listing {
   climateControlFeatures      ClimatControlFeature[]
   accessibilityFeatures       AccessibilityFeature[]
   propertyRequirements        PropertyRequirement[]
+  images                      Image[]
+  agentId                     String   @db.ObjectId
+  agent                       Agent    @relation(fields: [agentId], references: [id])
+  agencyId                    String   @db.ObjectId
+  agency                      Agency   @relation(fields: [agencyId], references: [id])
+}
+
+model Image {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  main      String
+  thumbnail String
+  listingId String   @db.ObjectId
+  listing   Listing  @relation(fields: [listingId], references: [id])
 }
 
 enum ListingType {
