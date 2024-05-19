@@ -60,60 +60,51 @@ const AddListingForm = () => {
         <Stepper initialStep={0} steps={steps}>
           <Step>
             <div className="grid gap-6 md:grid-cols-2">
-              <fieldset className="my-6 p-6 border rounded-lg grid gap-4">
-                <legend className="text-muted-foreground text-sm">
-                  Property Location &amp; Address
-                </legend>
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormLabel>Address</FormLabel>
-                        <FormControl>
-                          <GooglePlacesAutocomplete
-                            apiKey={
-                              import.meta.env.VITE_GOOGLE_API_KEY || 'API_KEY'
-                            }
-                            selectProps={
-                              {
-                                isClearable: true,
-                                placeholder:
-                                  'Please enter the address of the property',
-                                defaultValue: field?.value
-                                  ? {
-                                      label: field.value,
-                                      value: field.value,
-                                    }
-                                  : null,
-                                onChange: (place: any) =>
-                                  field.onChange(place?.value.description),
-                                onBlur: () => field.onBlur(),
-                                ref: field.ref,
-                                theme: (theme: any) => ({
-                                  ...theme,
-                                  colors: {
-                                    ...theme.colors,
-                                    primary25: 'hsl(var(--primary))',
-                                    primary: 'hsl(var(--primary))',
-                                  },
-                                }),
-                              } as any
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                />
-              </fieldset>
-              <fieldset className="my-6 p-6 border rounded-lg grid gap-4">
-                <legend className="text-muted-foreground text-sm">
-                  Images
-                </legend>
-              </fieldset>
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Address</FormLabel>
+                      <FormControl>
+                        <GooglePlacesAutocomplete
+                          apiKey={
+                            import.meta.env.VITE_GOOGLE_API_KEY || 'API_KEY'
+                          }
+                          selectProps={
+                            {
+                              isClearable: true,
+                              placeholder:
+                                'Please enter the address of the property',
+                              defaultValue: field?.value
+                                ? {
+                                    label: field.value,
+                                    value: field.value,
+                                  }
+                                : null,
+                              onChange: (place: any) =>
+                                field.onChange(place?.value.description),
+                              onBlur: () => field.onBlur(),
+                              ref: field.ref,
+                              theme: (theme: any) => ({
+                                ...theme,
+                                colors: {
+                                  ...theme.colors,
+                                  primary25: 'hsl(var(--primary))',
+                                  primary: 'hsl(var(--primary))',
+                                },
+                              }),
+                              // isLoading: true, To be set to true while loading initial data via redux
+                            } as any
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
             </div>
           </Step>
           <Step label={steps[1].label}>Test</Step>

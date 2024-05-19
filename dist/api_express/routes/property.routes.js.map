@@ -1,0 +1,1 @@
+{"version":3,"file":"property.routes.js","sourceRoot":"","sources":["../../../api_express/routes/property.routes.ts"],"names":[],"mappings":";;AAAA,qCAAoD;AAEpD,MAAM,MAAM,GAAG,IAAA,gBAAM,GAAE,CAAC;AAExB,MAAM,CAAC,GAAG,CAAC,aAAa,EAAE,CAAC,GAAY,EAAE,GAAa,EAAE,EAAE;IACxD,OAAO,GAAG,CAAC,IAAI,CAAC;QACd,OAAO,EAAE,uBAAuB;KACjC,CAAC,CAAC;AACL,CAAC,CAAC,CAAC;AAEH,kBAAe,MAAM,CAAC"}
