@@ -1,19 +1,55 @@
-import { Injectable } from '@nestjs/common';
-import { CreateListingDto } from './dto/create-listing.dto';
-import { UpdateListingDto } from './dto/update-listing.dto';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { CreateListingDraftDto } from './dto/create-listing-draft.dto';
+import { UpdateListingDto } from './dto/update-listing-draft.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ListingsService {
-  create(createListingDto: CreateListingDto) {
-    return 'This action adds a new listing';
+  constructor(private prisma: PrismaService) {}
+
+  async createDraft(createListingDraftDto: CreateListingDraftDto) {
+    const { address, lat, lng, googlePlaceId, agentId } = createListingDraftDto;
+    if (
+      await this.prisma.listing.findUnique({
+        where: {
+          address,
+        },
+      })
+    ) {
+      throw new ConflictException(
+        'A property with this address already exists',
+      );
+    }
+
+    const agent = await this.prisma.agent.findUnique({
+      where: {
+        id: agentId,
+      },
+    });
+    const listingDraft = await this.prisma.listing.create({
+      data: {
+        address: address,
+        googlePlaceId: googlePlaceId,
+        lat: lat,
+        lng: lng,
+        agentId: agent.id,
+        agencyId: agent.agencyId,
+      },
+    });
+    console.log(listingDraft);
+    return 'hello';
   }
 
   findAll() {
-    return `This action returns all listings`;
+    return this.prisma.listing.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} listing`;
+  findOne(id: string) {
+    return this.prisma.listing.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
   update(id: number, updateListingDto: UpdateListingDto) {

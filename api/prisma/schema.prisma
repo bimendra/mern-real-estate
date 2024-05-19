@@ -42,19 +42,20 @@ model Agency {
 }
 
 model Listing {
-  id                          String    @id @default(auto())  @map("_id") @db.ObjectId
-  address                     String    @unique
+  id                          String          @id @default(auto())  @map("_id") @db.ObjectId
+  listingState                ListingState    @default(draft)
+  address                     String          @unique
   googlePlaceId               String
-  description                 String
-  price                       Float
-  bedrooms                    Int
-  baths                       Int
-  carSpaces                   Int
-  landSize                    Float
+  description                 String?
+  price                       Float?
+  bedrooms                    Int?
+  baths                       Int?
+  carSpaces                   Int?
+  landSize                    Float?
   lat                         Float
   lng                         Float
-  listingType                 ListingType
-  propertyType                PropertyType
+  listingType                 ListingType?
+  propertyType                PropertyType?
   outdoorFeatures             OutdoorFeature[]
   indoorFeatures              IndoorFeature[]
   energyFeatures              EnergyFeature[]
@@ -79,6 +80,13 @@ model Image {
 enum ListingType {
   sale 
   rent
+}
+
+enum ListingState {
+  draft
+  pendingApproval
+  published
+  unpublished
 }
 
 enum PropertyType {

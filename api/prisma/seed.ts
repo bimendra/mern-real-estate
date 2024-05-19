@@ -35,7 +35,7 @@ async function main() {
 
   // Create 10-20 agents for each agency
   for (const agency of agencies) {
-    const numAgents = faker.datatype.number({ min: 10, max: 20 });
+    const numAgents = faker.number.int({ min: 10, max: 20 });
     for (let j = 0; j < numAgents; j++) {
       const user = await prisma.user.create({
         data: {
@@ -59,9 +59,9 @@ async function main() {
   }
 
   // Create listings
-  for (let address of addresses) {
+  for (let address of addresses.slice(0, 10)) {
     const images = Array.from(
-      { length: faker.datatype.number({ min: 10, max: 20 }) },
+      { length: faker.number.int({ min: 10, max: 20 }) },
       () => generateImageUrls(address),
     );
 
@@ -70,17 +70,18 @@ async function main() {
     await prisma.listing.create({
       data: {
         address: address,
-        googlePlaceId: faker.datatype.uuid(),
+        listingState: 'published',
+        googlePlaceId: faker.string.uuid(),
         description: faker.lorem.paragraph(),
-        price: faker.datatype.float({
+        price: faker.number.float({
           min: 100000,
           max: 1000000,
           precision: 0.01,
         }),
-        bedrooms: faker.datatype.number({ min: 1, max: 5 }),
-        baths: faker.datatype.number({ min: 1, max: 3 }),
-        carSpaces: faker.datatype.number({ min: 0, max: 3 }),
-        landSize: faker.datatype.float({
+        bedrooms: faker.number.int({ min: 1, max: 5 }),
+        baths: faker.number.int({ min: 1, max: 3 }),
+        carSpaces: faker.number.int({ min: 0, max: 3 }),
+        landSize: faker.number.float({
           min: 500,
           max: 10000,
           precision: 0.01,
